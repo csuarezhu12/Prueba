@@ -30,4 +30,6 @@ Route::resource('user', UserController::class);
 Route::resource('client', ClientController::class);
 Route::resource('city', CityController::class);
 
+Route::get('client', [App\Http\Controllers\ClientController::class, 'create']);
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

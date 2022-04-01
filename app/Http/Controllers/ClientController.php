@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use App\Models\Client;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,10 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('client');
+
+        $citys = City::all();
+        $clients = client::paginate(1);
+        return view('client', ['citys' => $citys , 'clients' => $clients] );
     }
 
     /**

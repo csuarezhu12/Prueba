@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'name',
-        'city'
+        'city',
     ];
+    public function city (){
+        return $this ->hasmany(city::class, 'id');
+    }
 }

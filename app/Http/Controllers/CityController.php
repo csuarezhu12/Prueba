@@ -14,7 +14,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        $citys = City::paginate(1);
+        $citys = City::paginate(15);
         return view('city', ['citys' => $citys]);
     }
 
