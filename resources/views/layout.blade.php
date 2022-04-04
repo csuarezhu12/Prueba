@@ -12,7 +12,6 @@
 
   <title>@yield('title')</title>
 </head>
-
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
@@ -33,9 +32,10 @@
       </form>
     </div>
   </nav>
+  </body>
   <div class="container">
     @yield('content')
   </div>
-</body>
+
 
 </html>

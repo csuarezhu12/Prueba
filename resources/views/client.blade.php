@@ -11,25 +11,61 @@
                     <th>Ciudad</th>
                     <th>Acciones</th>
                 </tr>
-                @foreach ($clients as $client)
-                <tr>
-                    <td>{{$client->id}}</td>
-                    <td>{{ $client->name }}</td>
-                    <td>{{ $client->city }}</td>
-                    <td>
-                        <form action="{{ route('client.destroy',$client->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                            <a class="btn btn-primary" action="{{ route('client.edit',$client->id) }}" onClick="mostrar1(event);">Editar</a>
-                        </form>
+                @if(count($clients)<= 0) <tr>
+                    <td colspan="4">No hay resultados </td>
+                    </tr>
+                    @else
+                    @foreach ($clients as $client)
+                    <tr>
+                        <td>{{$client->id}}</td>
+                        <td>{{ $client->name }}</td>
+                        <td>{{ $client->city }}</td>
+                        <td>
+                            <form action="{{ route('client.destroy',$client->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                <a class="btn btn-primary" action="{{ route('client.edit',$client->id) }}" onClick="mostrar1(event);">Editar</a>
+                            </form>
 
-                    </td>
-                </tr>
-                @endforeach
+                        </td>
+                    </tr>
+                    @endforeach
+                   
             </table>
             <a class="btn btn-success" onClick="mostrar(event);">Insertar</a>
+            <a class="btn btn-success" onClick="mostrarB(event);">Buscar Clientes</a>
 
+        </div>
+        <script>
+            function mostrarB() {
+                var frm = document.buscador;
+                if (frm.style.display == "block") {
+                    frm.style.display = "none"
+                } else
+                if (frm.style.display == "none") {
+                    frm.style.display = "block"
+                }
+            }
+        </script>
+        <div class="col col-md-4">
+            <form action="{{ route('client.index') }}" method="GET" name="buscador" style="display: none;">
+                <p class="text-danger">Buscador de Clientes por Ciudad</p>
+                <div class="form-row">
+                    <div class="col col-md-6 my-1">
+                        <select name="texto" id="ciudad" class="form-control">
+                            <option value="">Lista de Ciudades</option>
+                            @foreach($citys as $city)
+                            <option value="{{$city->name}}">{{$city->name}}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                    <div class="col col-md-3 my-1">
+                        <input type="submit" class="btn btn-primary" value="Buscar">
+                    </div>
+                </div>
+            </form>
         </div>
         <script>
             function mostrar() {
@@ -104,7 +140,7 @@
     </div>
 </div>
 <br>
-
+@endif
 {{ $clients->links() }}
 @endsection
 

@@ -5,18 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = client::paginate(1);
-        return view('client', ['clients' => $clients]);
+        $texto = trim($request->get('texto'));
+        $citys = City::all();
+        $clients = DB::table('clients')->select('id', 'name', 'city')
+            ->where('city', 'LIKE', '%' . $texto . '%')
+            ->orWhere('city', 'LIKE', '%' . $texto . '%')
+            ->orderBy('city', 'asc')
+            ->paginate(2);
+        return view('client', compact('clients', 'texto','citys'));
     }
 
     /**
@@ -26,10 +33,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-
-        $citys = City::all();
-        $clients = client::paginate(1);
-        return view('client', ['citys' => $citys , 'clients' => $clients] );
+        return view('client');
     }
 
     /**
@@ -95,7 +99,6 @@ class ClientController extends Controller
 
         $client->update($request->all());
         return redirect('/client')->with('success', 'Se Actualizo correctamente');
-
     }
 
     /**
